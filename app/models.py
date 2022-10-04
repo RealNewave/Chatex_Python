@@ -13,7 +13,7 @@ class User(BaseModel):
 
 class Thread(BaseModel):
     sender_id: int
-    message: str
+    subject: str
     receivers = []
     replies = []
     # sender_visibility: bool
