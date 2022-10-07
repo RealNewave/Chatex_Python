@@ -16,11 +16,16 @@ Content-Type: application/json
 {
   "sender_id": 1,
   "receivers": [2, 3],
-  "message": "Hello You"
+  "message": "Test Subject"
 }
 
 ###
 GET http://127.0.0.1:8000/threads
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/threads/1
 Accept: application/json
 
 ###
@@ -30,5 +35,21 @@ Content-Type: application/json
 
 {
   "sender_id": 2,
-  "message": "Hello to you too!"
+  "visible_to_strangers": true,
+  "message": "Hello to you once more!"
 }
+
+###
+POST http://127.0.0.1:8000/users/create
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "Jasmijn",
+  "password" : "321cba"
+}
+
+###
+
+GET http://127.0.0.1:8000/users/1
+Accept: application/json

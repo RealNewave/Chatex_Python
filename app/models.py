@@ -1,32 +1,42 @@
-from _datetime import datetime
+from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class User(BaseModel):
-    user_id: int
     username: str
     password: str
-    last_online: datetime
-    threads = {}
+    # last_online: datetime
+
+    class Config:
+        orm_mode = True
 
 
-class Thread(BaseModel):
-    sender_id: int
-    subject: str
-    receivers = []
-    replies = []
-    # sender_visibility: bool
-    timestamp = datetime.now()
-
-
-class ReplyMessage(BaseModel):
+class Message(BaseModel):
     sender_id: int
     message: str
-    timestamp = datetime.now()
+    # timestamp: datetime
 
 
-class EditMessage(BaseModel):
-    message_id: int
-    message: str
-    timestamp_edited = datetime.now()
+class ReplyMessage(Message):
+    visible_to_strangers: bool = False
+
+    class Config:
+        orm_mode = True
+
+
+class StartThread(Message):
+    receivers: list[int]
+
+
+class Thread(Message):
+    receivers: list[User] = []
+    replies: list[ReplyMessage] = []
+
+    class Config:
+        orm_mode = True
+
+
+class EditMessage(Message):
+    class Config:
+        orm_mode = True
